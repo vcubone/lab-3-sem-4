@@ -26,9 +26,11 @@ public class Location
     	return hash;
     }
     // сравниваю значения 2 объектов класса Location
-    public boolean equals(Location a)
+    public boolean equals(Object  a)
     {
-        return (a.xCoord == xCoord & a.yCoord == yCoord);
+        if (!(a instanceof Location))
+                return false;
+        return (((Location)a).xCoord == xCoord & ((Location)a).yCoord == yCoord);
     }
     /** Creates a new location with coordinates (0, 0). **/
     public Location()

@@ -115,4 +115,3 @@ public class AStarState
         return close.containsKey(loc);
     }
 }
-
