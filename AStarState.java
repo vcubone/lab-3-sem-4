@@ -13,8 +13,8 @@ public class AStarState
     /** This is a reference to the map that the A* algorithm is navigating. **/
     private Map2D map;
 
-    Map<Location, Waypoint> open = new HashMap<Location, Waypoint>();
-    Map<Location, Waypoint> close = new HashMap<Location, Waypoint>();
+    private HashMap<Location, Waypoint> open;
+    private HashMap<Location, Waypoint> close;
 
 
     /**
@@ -42,8 +42,17 @@ public class AStarState
     public Waypoint getMinOpenWaypoint()
     {
         // TODO:  Implement.
-        
-        return null;
+        float min = Float.MAX_VALUE;
+        Waypoint minim = null;
+        for (Map.Entry<Location, Waypoint> entry: open.entrySet())
+        {
+            if (entry.getValue().getTotalCost() < min)
+            {
+                min = entry.getValue().getTotalCost();
+                minim = entry.getValue();
+            }
+        }
+        return minim;
     }
 
     /**
@@ -58,7 +67,21 @@ public class AStarState
     public boolean addOpenWaypoint(Waypoint newWP)
     {
         // TODO:  Implement.
-        return false;
+        for (Map.Entry<Location, Waypoint> entry: open.entrySet())
+        {
+            
+            if (entry.getKey().equals(newWP.loc))
+            {
+                if (entry.getValue().getPreviousCost() > newWP.getPreviousCost())
+                {
+                    open.put(newWP.loc,newWP);
+                    return true;
+                }
+                return false;
+            }
+        }
+        open.put(newWP.loc,newWP);
+        return true;
     }
 
 
@@ -77,6 +100,7 @@ public class AStarState
     public void closeWaypoint(Location loc)
     {
         // TODO:  Implement.
+        close.put(loc,open.remove(loc));
     }
 
     /**
@@ -86,7 +110,7 @@ public class AStarState
     public boolean isLocationClosed(Location loc)
     {
         // TODO:  Implement.
-        return false;
+        return close.containsKey(loc);
     }
 }
 
